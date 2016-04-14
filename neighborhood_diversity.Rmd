@@ -17,16 +17,15 @@ output:
 ```{r setup, include=FALSE}
 
 library(shiny)
-library(leaflet)
-library(highcharter)
-library(plotly)
-library(ggplot2)
+library(leaflet) # devtools::install_github('rstudio/leaflet')
+library(highcharter) # devtools::install_github('jbkunst/highcharter')
+library(plotly) # devtools::install_github('ropensci/plotly')
+library(ggplot2) # devtools::install_github('hadley/ggplot2')
 library(sp)
 library(dplyr)
-library(flexdashboard)
+library(flexdashboard) # devtools::install_github('rstudio/flexdashboard')
 library(maptools)
 library(readr)
-library(viridis)
 library(ggthemes)
 
 lookup <- structure(c(12060L, 12580L, 14460L, 16980L, 17140L, 17460L, 18140L, 
