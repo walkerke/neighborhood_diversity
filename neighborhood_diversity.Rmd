@@ -24,6 +24,8 @@ library(ggplot2) # devtools::install_github('hadley/ggplot2')
 library(sp)
 library(dplyr)
 library(flexdashboard) # devtools::install_github('rstudio/flexdashboard')
+library(rgeos)
+library(mapproj)
 library(maptools)
 library(readr)
 library(ggthemes)
@@ -102,7 +104,7 @@ downloadLink('downloadCSV', label = 'Download CSV for active metro (2010)')
 
 ```
 
-Use the __Explore metros__ tab to explore neighborhood diversity for your chosen metropolitan area in 2010.  The red line on the scatterplot represents a locally-weighted estimate of how diversity varies in the metropolitan area by distance from its urban core or cores.  Click and drag on the scatterplot to highlight the corresponding Census tracts on the map below, and hover your cursor over a Census tract on the map to generate a chart of race and ethnicity counts.  
+Use the __Explore metros__ tab to explore neighborhood diversity for your chosen metropolitan area in 2010.  The red line on the scatterplot represents a locally-weighted estimate of how diversity varies in the metropolitan area by distance from its urban core or cores.  Click and drag on the scatterplot to highlight the corresponding Census tracts on the map below, and click on a Census tract on the map to generate a chart of race and ethnicity counts.  
 
 Click the __Compare over time__ tab to examine how locally-weighted estimates of neighborhood diversity by distance from the urban core has varied between the 1990, 2000, and 2010 Censuses, and view maps of these shifts over time. To learn more about the project, click the __About__ tab.  
 
@@ -118,6 +120,7 @@ Row
 
 ```{r}
 
+# Here, we draw the diversity 
 output$scatter <- renderPlotly({
   
   p1a <- ggplot(metro()@data, aes(Distance, Score)) + 
@@ -146,6 +149,8 @@ Row
 
 output$map <- renderLeaflet({
   
+    # req(sub())
+  
     pal <- colorNumeric('Reds', NULL)
     
     map <- leaflet(metro()) %>%
@@ -154,21 +159,16 @@ output$map <- renderLeaflet({
                   fillColor = ~pal(entropy), fillOpacity = 0.7, 
                   layerId = ~GEOID) %>%
       addLegend(position = 'bottomright', pal = pal, 
-                values = metro()$entropy, title = 'Score')  %>%
-      addPolygons(data = sub(), fill = FALSE, color = '#FFFF00',
-                  opacity = 1) %>%
-      fitBounds(lng1 = bbox(sub())[1],
-                lat1 = bbox(sub())[2],
-                lng2 = bbox(sub())[3],
-                lat2 = bbox(sub())[4])
+                values = metro()$entropy, title = 'Score')
+
     
     map
     
   })
 
-hover_tract <- eventReactive(input$map_shape_mouseover, {
+click_tract <- eventReactive(input$map_shape_click, {
 
-    x <- input$map_shape_mouseover
+    x <- input$map_shape_click
 
     y <- x$id
 
@@ -179,26 +179,49 @@ hover_tract <- eventReactive(input$map_shape_mouseover, {
 sub <- reactive({
 
     eventdata <- event_data('plotly_selected', source = 'source')
+    
+    if (is.null(eventdata)) {
+      
+      return(NULL)
+      
+    } else {
 
     tracts <- eventdata[['pointNumber']]
 
     sub <- metro()[metro()$id %in% tracts, ]
 
-    sub
+    return(sub)
+    
+    }
 
   })
 
-# highlighted_tract <- reactive({
-#   
-#   return(full_tracts[full_tracts$tractid == hover_tract(), ])
-#   
-# })
+values <- reactiveValues()
 
 observe({
 
-  map <- leafletProxy('map', session) %>%
+  req(sub())
+
+  proxy <- leafletProxy('map', data = sub())
+  
+  proxy %>%
+    clearGroup(group = 'sub') %>%
+    addPolygons(data = sub(), fill = FALSE, color = '#FFFF00',
+                opacity = 1, group = 'sub') %>%
+    fitBounds(lng1 = bbox(sub())[1],
+              lat1 = bbox(sub())[2],
+              lng2 = bbox(sub())[3],
+              lat2 = bbox(sub())[4])
+
+})
+
+observe({
+  
+  req(click_tract())
+
+  map <- leafletProxy('map') %>%
       removeShape('htract') %>%
-      addPolygons(data = full_tracts[full_tracts$GEOID == hover_tract(), ], fill = FALSE,
+      addPolygons(data = full_tracts[full_tracts$GEOID == click_tract(), ], fill = FALSE,
                   color = '#00FFFF', opacity = 1, layerId = 'htract')
 
   })
@@ -207,7 +230,7 @@ observe({
 
 tract_data <- reactive({
 
-    return(metro()@data[metro()@data$GEOID == hover_tract(), ])
+    return(metro()@data[metro()@data$GEOID == click_tract(), ])
 
   })
 
@@ -216,7 +239,7 @@ leafletOutput('map')
 
 ```
 
-### Race/ethnicity, selected tract
+### Race/ethnicity, selected tract (click on the map to show chart)
 
 ```{r}
 output$raceplot <- renderHighchart({
@@ -237,7 +260,8 @@ output$raceplot <- renderHighchart({
       hc_subtitle(text = paste0('Diversity score: ', as.character(round(tract_data()$entropy, 2))), 
                   align = 'left') %>%
       hc_add_theme(hc_theme_smpl()) %>%
-      hc_colors(c('#d01010', '#d01010'))
+      hc_colors(c('#d01010', '#d01010')) %>%
+      hc_tooltip(enabled = FALSE)
 
 
 
