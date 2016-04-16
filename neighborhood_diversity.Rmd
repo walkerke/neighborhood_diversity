@@ -30,6 +30,8 @@ library(maptools)
 library(readr)
 library(ggthemes)
 
+
+# Define the list of available metros
 lookup <- structure(c(12060L, 12580L, 14460L, 16980L, 17140L, 17460L, 18140L, 
 19100L, 19740L, 19820L, 26420L, 28140L, 29820L, 31100L, 33100L, 
 33460L, 35620L, 36740L, 37980L, 38060L, 38300L, 38900L, 40900L, 
@@ -41,17 +43,18 @@ lookup <- structure(c(12060L, 12580L, 14460L, 16980L, 17140L, 17460L, 18140L,
 "Sacramento", "St. Louis", "San Antonio", "San Diego", "San Francisco-Oakland", 
 "Seattle", "Tampa-St. Petersburg", "Washington"))
 
-# full_tracts <- readRDS('full_tracts.rds')
-
+# Read in data, and subset for the selected metro
 full_tracts <- readRDS('full_simp.rds')
+
+full_tracts$tractid <- as.numeric(as.character(full_tracts$GEOID))
 
 metro <- reactive({
   
   m <- full_tracts[full_tracts$metroid == input$metro_name, ]
 
-  l1 <- length(m) - 1
-
-  m$id <- 0:l1
+  # l1 <- length(m) - 1
+  # 
+  # m$id <- 0:l1
   
   m$Distance <- m$distmiles
   
@@ -61,6 +64,7 @@ metro <- reactive({
   
 })
 
+# Generate data for the second tab
 full_compare <- readRDS('comparative.rds')
 
 compare_metro <- reactive({
@@ -81,11 +85,13 @@ Sidebar {.sidebar}
 
 ```{r}
 
+# Define inputs
 selectInput('metro_name', label = 'Select a metropolitan area', choices = lookup, selected = 19100L)
 
 sliderInput('span', label = 'Span Parameter', min = 0.1, max = 0.9, value = 0.3, 
             step = 0.1)
 
+# Set up data download
 data_for_dl <- reactive({
   
   dat <- select(metro()@data, GEOID, state, county, white, black, hispanic, asian, total, 
@@ -120,20 +126,30 @@ Row
 
 ```{r}
 
-# Here, we draw the diversity 
+# Here, we draw the diversity gradient with ggplotly
 output$scatter <- renderPlotly({
   
-  p1a <- ggplot(metro()@data, aes(Distance, Score)) + 
-    geom_point(alpha = 0.4) + 
+  key <- metro()$tractid
+  
+  p1a <- ggplot(metro()@data) + 
+    geom_point(alpha = 0.4, aes(Distance, Score, key = key)) + 
     theme_minimal(base_size = 14) + 
-    stat_smooth(color = 'red', method = 'loess', span = input$span, se = FALSE) + 
+    stat_smooth(aes(Distance, Score), 
+                color = 'red', method = 'loess', span = input$span, se = FALSE) + 
     xlab('Distance from city hall (miles)') + ylab('') 
     
-  ggplotly(p1a, source = 'source') %>% 
+  g <- ggplotly(p1a, source = 'source') %>% 
     layout(dragmode = 'lasso', 
            yaxis = list(title = 'Diversity score'), 
            margin = list(l = 100), 
            font = list(family = 'Open Sans', size = 16))
+  
+  build <- plotly_build(g)
+  
+  build$data[[1]]$text <- paste0('Distance: ', as.character(round(metro()$Distance, 2)), '<br>', 
+                               'Score: ', as.character(round(metro()$Score, 2))) 
+
+  build
     
 })  
 
@@ -147,20 +163,19 @@ Row
 
 ```{r}
 
+# Draw the map without selected tracts
 output$map <- renderLeaflet({
-  
-    # req(sub())
   
     pal <- colorNumeric('Reds', NULL)
     
     map <- leaflet(metro()) %>%
       addProviderTiles('CartoDB.Positron') %>%
+      clearShapes() %>%
       addPolygons(stroke = FALSE, smoothFactor = 0, 
                   fillColor = ~pal(entropy), fillOpacity = 0.7, 
                   layerId = ~GEOID) %>%
       addLegend(position = 'bottomright', pal = pal, 
                 values = metro()$entropy, title = 'Score')
-
     
     map
     
@@ -186,9 +201,9 @@ sub <- reactive({
       
     } else {
 
-    tracts <- eventdata[['pointNumber']]
+    tracts <- eventdata[['key']]
 
-    sub <- metro()[metro()$id %in% tracts, ]
+    sub <- metro()[metro()$tractid %in% tracts, ]
 
     return(sub)
     
@@ -202,7 +217,7 @@ observe({
 
   req(sub())
 
-  proxy <- leafletProxy('map', data = sub())
+  proxy <- leafletProxy('map')
   
   proxy %>%
     clearGroup(group = 'sub') %>%
@@ -214,6 +229,15 @@ observe({
               lat2 = bbox(sub())[4])
 
 })
+
+# observeEvent(input$metro_name, {
+#   
+#   req(sub())
+#   
+#   sub() <- c()
+#   
+# })
+
 
 observe({
   
