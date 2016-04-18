@@ -51,7 +51,7 @@ lookup <- structure(c(12060L, 12420L, 12580L, 13820L, 14460L, 15380L, 16740L,
 # Read in data, and subset for the selected metro
 full_tracts <- readRDS('full_simp2.rds')
 
-full_tracts$tractid <- as.numeric(as.character(full_tracts$GEOID))
+# full_tracts$tractid <- as.numeric(as.character(full_tracts$GEOID))
 
 metro <- reactive({
   
@@ -130,7 +130,7 @@ Row
 # Here, we draw the diversity gradient with ggplotly
 output$scatter <- renderPlotly({
   
-  key <- metro()$tractid
+  key <- metro()$tractid # This will uniquely identify tracts for Plotly
   
   p1a <- ggplot(metro()@data) + 
     geom_point(alpha = 0.4, aes(Distance, Score, key = key)) + 
@@ -209,7 +209,7 @@ sub <- reactive({
       
       if (length(tracts) == 0) {
         
-        tracts <- 'abcdefg' # a hack but it's working
+        tracts <- 'abcdefg' # a hack but it's working - set to something that can't be selected
         
       }
       
@@ -251,8 +251,9 @@ observe({
 
 observe({
   
-  req(click_tract())
-
+  req(click_tract()) # do this if click_tract() is not null
+  
+  # Add the clicked tract to the map in aqua, and remove when a new one is clicked
   map <- leafletProxy('map') %>%
       removeShape('htract') %>%
       addPolygons(data = full_tracts[full_tracts$GEOID == click_tract(), ], fill = FALSE,
@@ -263,7 +264,8 @@ observe({
 
 
 tract_data <- reactive({
-
+  
+    # Fetch data for the clicked tract
     return(metro()@data[metro()@data$GEOID == click_tract(), ])
 
   })
