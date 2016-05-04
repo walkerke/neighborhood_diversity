@@ -29,6 +29,7 @@ library(mapproj)
 library(maptools)
 library(readr)
 library(ggthemes)
+library(viridis)
 
 
 # Define the list of available metros
@@ -135,7 +136,7 @@ output$scatter <- renderPlotly({
     geom_point(alpha = 0.4, aes(Distance, Score, key = key)) + 
     theme_minimal(base_size = 14) + 
     stat_smooth(aes(Distance, Score), 
-                color = 'red', method = 'loess', span = input$span, se = FALSE) + 
+                color = '#FFD700', method = 'loess', span = input$span, se = FALSE, alpha = 1) + 
     xlab('Distance from city hall (miles)') + ylab('') 
     
   g <- ggplotly(p1a, source = 'source') %>% 
@@ -167,7 +168,7 @@ Row
 # Draw the map without selected tracts
 output$map <- renderLeaflet({
   
-    pal <- colorNumeric('Reds', NULL)
+    pal <- colorNumeric(viridis(999), NULL)
     
     map <- leaflet(metro()) %>%
       addProviderTiles('CartoDB.Positron') %>%
@@ -238,7 +239,7 @@ observe({
   # Clear old selection on map, and add new selection
   proxy %>%
     clearGroup(group = 'sub') %>%
-    addPolygons(data = sub(), fill = FALSE, color = '#FFFF00',
+    addPolygons(data = sub(), fill = FALSE, color = '#00FFFF',
                 opacity = 1, group = 'sub') %>%
     fitBounds(lng1 = bbox(sub())[1],
               lat1 = bbox(sub())[2],
@@ -256,7 +257,7 @@ observe({
   map <- leafletProxy('map') %>%
       removeShape('htract') %>%
       addPolygons(data = full_tracts[full_tracts$GEOID == click_tract(), ], fill = FALSE,
-                  color = '#00FFFF', opacity = 1, layerId = 'htract')
+                  color = '#FF00FF', opacity = 1, layerId = 'htract')
 
   })
 
@@ -295,7 +296,7 @@ output$raceplot <- renderHighchart({
       hc_subtitle(text = paste0('Diversity score: ', as.character(round(tract_data()$entropy, 2))), 
                   align = 'left') %>%
       hc_add_theme(hc_theme_smpl()) %>%
-      hc_colors(c('#d01010', '#d01010')) %>%
+      hc_colors(c('#443A83', '#443A83')) %>%
       hc_tooltip(enabled = FALSE)
 
 
@@ -324,6 +325,7 @@ p4 <- ggplot(compare_metro(), aes(Distance, Score, color = Year)) +
   xlab('Distance from city hall (miles)') + ylab('') + 
   labs(list(color = "Year")) + 
   theme_minimal() + 
+  scale_color_manual(values = c('#440154', '#21908C', '#FDE725')) + 
   theme(legend.position = c(0.925, 0.925), 
         legend.background = element_blank(), 
         legend.key = element_blank()) 
@@ -360,15 +362,15 @@ output$facets <- renderPlot({
     geom_map(data = compare_metro(), map = metrof(), 
              aes(fill = entropy, map_id = GEOID), size = 0.1) + 
     facet_wrap(~year) + 
-    scale_fill_distiller(palette = 'Reds', trans = 'reverse') + 
+    scale_fill_viridis() + 
     coord_map() + 
     theme_map(base_size = 16) + 
     theme(legend.position = 'bottom', 
           legend.title = element_blank(), 
           legend.key.width = unit(4, 'cm'), 
           strip.background = element_blank(), 
-          strip.text = element_text(face = 'bold', size = 18)) + 
-    guides(fill = guide_colorbar(reverse = TRUE))
+          strip.text = element_text(face = 'bold', size = 18)) 
+    # guides(fill = guide_colorbar(reverse = TRUE))
 })
 
 plotOutput('facets')
@@ -403,24 +405,47 @@ I welcome feedback and suggestions!  [Please visit my personal website](http://p
 
 <style>
 
-#sidebar.section.sidebar {
+.section.sidebar {
 
   background-color: white; 
-  font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif !important;
+  font-family: "Open-Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
 
 }
 
 .js-irs-0 .irs-bar {
-border-top-color: #d01010;
-border-bottom-color: #d01010;
+border-top-color: #443A83;
+border-bottom-color: #443A83;
 } 
 
 .js-irs-0 .irs-bar-edge {
-border-color: #d01010;
+border-color: #443A83;
 }
 
 .js-irs-0 .irs-single, .js-irs-0 .irs-bar-edge, .js-irs-0 .irs-bar {
-background: #a00;
+background: #443A83;
+}
+
+.navbar-inverse {
+background-color: #443A83;
+border-color: #440154;
+}
+
+.navbar-inverse .navbar-brand {
+color: #a3a9ac;
+}
+
+a:hover, a:focus {
+color: #440154;
+text-decoration: underline;
+}
+
+a {
+color: #443A83;
+text-decoration: none;
+}
+
+.navbar-inverse .navbar-nav>li>a {
+color: #a3a9ac;
 }
 
 </style>
