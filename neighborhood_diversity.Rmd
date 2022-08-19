@@ -17,19 +17,11 @@ output:
 ```{r setup, include=FALSE}
 
 library(shiny)
-library(leaflet) # devtools::install_github('rstudio/leaflet')
-library(highcharter) # devtools::install_github('jbkunst/highcharter')
-library(plotly) # devtools::install_github('ropensci/plotly')
-library(ggplot2) # devtools::install_github('hadley/ggplot2')
-library(sp)
-library(dplyr)
-library(flexdashboard) # devtools::install_github('rstudio/flexdashboard')
-library(rgeos)
-library(mapproj)
-library(maptools)
-library(readr)
-library(ggthemes)
-
+library(plotly)
+library(leaflet)
+library(tidyverse)
+library(sf)
+library(highcharter)
 
 # Define the list of available metros
 lookup <- structure(c(12060L, 12420L, 12580L, 13820L, 14460L, 15380L, 16740L, 
@@ -50,30 +42,19 @@ lookup <- structure(c(12060L, 12420L, 12580L, 13820L, 14460L, 15380L, 16740L,
 "Washington"))
 
 # Read in data, and subset for the selected metro
-full_tracts <- readRDS('full_simp2.rds')
+full_tracts <- qs::qread("data/tracts_with_distance_2020.qs")
+full_compare <- qs::qread("data/metro_diversity_by_year.qs")
 
 metro <- reactive({
   
-  m <- full_tracts[full_tracts$metroid == input$metro_name, ]
+  full_tracts[[input$metro_name]]
 
-  m$Distance <- m$distmiles
-  
-  m$Score <- m$entropy
-  
-  return(m)
-  
 })
 
 # Generate data for the second tab
-full_compare <- readRDS('comparative.rds')
-
 compare_metro <- reactive({
   
-  out <- full_compare %>%
-    filter(metroid == input$metro_name) %>%
-    mutate(Distance = distance, Year = as.factor(year), Score = entropy)
-  
-  return(out)
+  full_compare[[input$metro_name]]
   
 })
 
@@ -84,37 +65,24 @@ Sidebar {.sidebar}
 ======================================================================
 
 ```{r}
-
+tags$br()
 # Define inputs
 selectInput('metro_name', label = 'Select a metropolitan area', choices = lookup, selected = 19100L)
 
 sliderInput('span', label = 'Span Parameter', min = 0.1, max = 0.9, value = 0.3, 
             step = 0.1)
 
-# Set up data download
-data_for_dl <- reactive({
-  
-  dat <- select(metro()@data, GEOID, state, county, white, black, hispanic, asian, total, 
-                entropy, distmeters = distance, distmiles)
-  
-})
-
-output$downloadCSV <- downloadHandler(
-  filename = 'data.csv', 
-  content = function(file) {
-    write_csv(data_for_dl(), file)
-  }
-)
-
-downloadLink('downloadCSV', label = 'Download CSV for active metro (2010)')
 
 ```
 
-Use the __Explore metros__ tab to explore neighborhood diversity for your chosen metropolitan area in 2010.  The red line on the scatterplot represents a locally-weighted estimate of how diversity varies in the metropolitan area by distance from its urban core or cores.  Click and drag on the scatterplot to highlight the corresponding Census tracts on the map below, and click on a Census tract on the map to generate a chart of race and ethnicity counts.  
+Use the __Explore metros__ tab to explore neighborhood diversity for your chosen metropolitan area in 2020.  The red line on the scatterplot represents a locally-weighted estimate of how diversity varies in the metropolitan area by distance from its urban core or cores.  Click and drag on the scatterplot to highlight the corresponding Census tracts on the map below, and click on a Census tract on the map to generate a chart of race and ethnicity counts.  
 
-Click the __Compare over time__ tab to examine how locally-weighted estimates of neighborhood diversity by distance from the urban core has varied between the 1990, 2000, and 2010 Censuses, and view maps of these shifts over time. To learn more about the project, click the __About__ tab.  
+Click the __Compare over time__ tab to examine how locally-weighted estimates of neighborhood diversity by distance from the urban core has varied between the 1990 and 2020 Censuses, and view maps of these shifts over time. To learn more about the project, click the __About__ tab.  
 
-Application author: [Kyle Walker](http://personal.tcu.edu/kylewalker), [Texas Christian University](http://www.tcu.edu)
+Application author: [Kyle Walker](https://walker-data.com)
+
+Data sources: [NHGIS](https://nhgis.org), United States Census Bureau
+
 
 Explore metros
 ======================================================================
@@ -122,36 +90,34 @@ Explore metros
 Row
 -----------------------------------------------------------------------
 
-### Diversity gradient
+### Diversity gradient (2020 US Census)
 
 ```{r}
 
 # Here, we draw the diversity gradient with ggplotly
 output$scatter <- renderPlotly({
   
-  key <- metro()$tractid # This will uniquely identify tracts for Plotly
+  m <- metro() %>%
+    mutate(text = glue::glue(
+      "Distance: {round(distmiles, 1)}<br>Entropy: {round(entropy, 2)}"
+    ))
   
-  p1a <- ggplot(metro()@data) + 
-    geom_point(alpha = 0.4, aes(Distance, Score, key = key)) + 
+  p1a <- ggplot(m) + 
+    geom_point(alpha = 0.4, aes(distmiles, entropy, key = tract_id, 
+                                text = text)) + 
     theme_minimal(base_size = 14) + 
-    stat_smooth(aes(Distance, Score), 
+    stat_smooth(aes(distmiles, entropy), 
                 color = 'red', method = 'loess', span = input$span, se = FALSE) + 
-    xlab('Distance from city hall (miles)') + ylab('') 
+    labs(x = "Distance from city hall (miles)",
+         y = "")
     
-  g <- ggplotly(p1a, source = 'source') %>% 
+  g <- ggplotly(p1a, source = 'source', tooltip = "text") %>% 
     layout(dragmode = 'lasso', 
            yaxis = list(title = 'Diversity score'), 
            margin = list(l = 100), 
-           font = list(family = 'Open Sans', size = 16))
+           font = list(family = 'Open Sans', size = 16)) %>%
+    event_register("plotly_selecting")
   
-  # Need to manually set the hoverinfo to avoid the key appearing in it
-  build <- plotly_build(g)
-  
-  build$data[[1]]$text <- paste0('Distance: ', as.character(round(metro()$Distance, 2)), '<br>', 
-                               'Score: ', as.character(round(metro()$Score, 2))) 
-
-  build
-    
 })  
 
 plotlyOutput('scatter', width = "80%")
@@ -160,27 +126,29 @@ plotlyOutput('scatter', width = "80%")
 Row 
 -----------------------------------------------------------------------
 
-### Map of diversity scores
+### Map of diversity scores (2020 US Census)
 
 ```{r}
 
 # Draw the map without selected tracts
 output$map <- renderLeaflet({
   
-    pal <- colorNumeric('Reds', NULL)
-    
-    map <- leaflet(metro()) %>%
-      addProviderTiles('CartoDB.Positron') %>%
-      clearShapes() %>%
-      addPolygons(stroke = FALSE, smoothFactor = 0, 
-                  fillColor = ~pal(entropy), fillOpacity = 0.7, 
-                  layerId = ~GEOID) %>%
-      addLegend(position = 'bottomright', pal = pal, 
-                values = metro()$entropy, title = 'Score')
-    
-    map
-    
-  })
+  m <- metro()
+  
+  pal <- colorNumeric('Reds', NULL)
+  
+  map <- leaflet(m) %>%
+    addProviderTiles('CartoDB.Positron') %>%
+    clearShapes() %>%
+    addPolygons(stroke = FALSE, smoothFactor = 0, 
+                fillColor = ~pal(entropy), fillOpacity = 0.7, 
+                layerId = ~tract_id) %>%
+    addLegend(position = 'bottomright', pal = pal, 
+              values = m$entropy, title = 'Score')
+  
+  map
+  
+})
 
 # Click event for the map (will use to generate chart)
 click_tract <- eventReactive(input$map_shape_click, {
@@ -193,81 +161,64 @@ click_tract <- eventReactive(input$map_shape_click, {
 
   })
 
-# Drag event for the scatterplot; will grab tractids of selected points
-sub <- reactive({
+tract_ids <- reactive({
+  eventdata <- event_data("plotly_selected", source = "source")
+  if (is.null(eventdata)) {
 
-    eventdata <- event_data('plotly_selected', source = 'source')
-    
-    if (is.null(eventdata)) {
-      
-      return(NULL) # do nothing
-      
-    } else {
-      
-      tracts <- eventdata[['key']]
-      
-      if (length(tracts) == 0) {
-        
-        tracts <- 'abcdefg' # a hack but it's working - set to something that can't be selected
-        
-      }
-      
-      if (!(tracts %in% metro()$tractid)) {
-        
-        return(NULL) # if there is not a match, do nothing as well
-        
-      } else {
-        
-        # Give back a sp data frame of the selected tracts
-        sub <- metro()[metro()$tractid %in% tracts, ]
+    return(NULL) # do nothing
 
-        return(sub)
-        
-      }
-    
-    }
+  } else {
 
-  })
+    tracts <- eventdata$key
+
+    return(tracts)
+  }
+})
+
+
 
 observe({
-
-  req(sub()) # Do this if sub() is not null
-
+  
+  req(tract_ids())
+  
   proxy <- leafletProxy('map')
   
+  sub <- filter(metro(), tract_id %in% tract_ids())
+
+  box <- st_bbox(sub) %>% as.vector()
+
   # Clear old selection on map, and add new selection
   proxy %>%
     clearGroup(group = 'sub') %>%
-    addPolygons(data = sub(), fill = FALSE, color = '#FFFF00',
-                opacity = 1, group = 'sub') %>%
-    fitBounds(lng1 = bbox(sub())[1],
-              lat1 = bbox(sub())[2],
-              lng2 = bbox(sub())[3],
-              lat2 = bbox(sub())[4])
+    addPolygons(data = sub, fill = FALSE, color = '#FFFF00',
+                 opacity = 1, group = 'sub', weight = 1.5) %>%
+    fitBounds(lng1 = box[1],
+              lat1 = box[2],
+              lng2 = box[3],
+              lat2 = box[4])
 
 })
 
 
-observe({
-  
-  req(click_tract()) # do this if click_tract() is not null
-  
+observeEvent(click_tract(), {
+
   # Add the clicked tract to the map in aqua, and remove when a new one is clicked
   map <- leafletProxy('map') %>%
       removeShape('htract') %>%
-      addPolygons(data = full_tracts[full_tracts$GEOID == click_tract(), ], fill = FALSE,
-                  color = '#00FFFF', opacity = 1, layerId = 'htract')
+      addPolygons(data = filter(metro(), tract_id == click_tract()), fill = FALSE,
+                  color = '#00FFFF', opacity = 1, layerId = 'htract', 
+                  weight = 1.6)
 
   })
 
 
 
 tract_data <- reactive({
-  
-    # Fetch data for the clicked tract
-    return(metro()@data[metro()@data$GEOID == click_tract(), ])
 
-  })
+    # Fetch data for the clicked tract
+    return(filter(metro(), tract_id == click_tract()))
+
+})
 
 
 leafletOutput('map')  
@@ -276,33 +227,43 @@ leafletOutput('map')
 
 ### Race/ethnicity, selected tract (click on the map to show chart)
 
-```{r}
+```{r, eval = TRUE}
+
 output$raceplot <- renderHighchart({
-
-    chart <- highchart() %>%
-      hc_chart(type = 'column') %>%
-      hc_legend(enabled = FALSE) %>%
-      hc_xAxis(categories = c('White', 'Black', 'Hispanic', 'Asian'), title = list(text = 'Race/ethnicity')) %>%
-      hc_yAxis(title = list(text = 'Population')) %>%
-      hc_plotOptions(series = list(dataLabels = list(enabled = TRUE))) %>%
-      hc_add_series(name = 'Population, 2010', data = c(tract_data()$white,
-                                             tract_data()$black,
-                                             tract_data()$hispanic,
-                                             tract_data()$asian)) %>%
-      hc_title(text = paste0('Census tract ', as.character(tract_data()$GEOID), 
-                             ', ', tract_data()$county, ', ', tract_data()$state), 
-               align = 'left') %>%
-      hc_subtitle(text = paste0('Diversity score: ', as.character(round(tract_data()$entropy, 2))), 
-                  align = 'left') %>%
-      hc_add_theme(hc_theme_smpl()) %>%
-      hc_colors(c('#d01010', '#d01010')) %>%
-      hc_tooltip(enabled = FALSE)
-
-
-
-    chart
-
-  })
+  
+  td <- tract_data()
+  
+  lookup <- tigris::fips_codes
+  state <- unique(filter(lookup, state_code == str_sub(td$tract_id, 1, 2))$state_name)
+  county <- unique(filter(lookup, state_code == str_sub(td$tract_id, 1, 2), 
+                          county_code == str_sub(td$tract_id, 3, 5))$county)
+  
+  chart <- highchart() %>%
+    hc_chart(type = 'column') %>%
+    hc_legend(enabled = FALSE) %>%
+    hc_xAxis(categories = c('White', 'Black', 'Hispanic', 'Asian', 'Native', 
+                            'Two or more'), title = list(text = 'Race/ethnicity')) %>%
+    hc_yAxis(title = list(text = 'Population')) %>%
+    hc_plotOptions(series = list(dataLabels = list(enabled = TRUE))) %>%
+    hc_add_series(name = 'Population, 2020', data = c(td$white,
+                                                      td$black,
+                                                      td$hispanic,
+                                                      td$asian,
+                                                      td$aian,
+                                                      td$two_or_more)) %>%
+    hc_title(text = paste0('Census tract ', td$tract_id, ', ', county, ', ', state),
+             align = 'left') %>%
+    hc_subtitle(text = paste0('Diversity score: ', as.character(round(td$entropy, 2))),
+                align = 'left') %>%
+    hc_add_theme(hc_theme_smpl()) %>%
+    hc_colors(c('#d01010', '#d01010')) %>%
+    hc_tooltip(enabled = FALSE)
+  
+  
+  
+  chart
+  
+})
 
 highchartOutput('raceplot')
 ```
@@ -313,17 +274,19 @@ Compare over time
 Row
 ----------------------------------------------------------------------------
 
-### Comparative diversity gradients, 1990-2010
+### Comparative diversity gradients, 1990-2020
 
 ```{r}
 
 output$comparative <- renderPlotly({
   
-p4 <- ggplot(compare_metro(), aes(Distance, Score, color = Year)) +
-  stat_smooth(se = F, size = 1, method = 'loess', span = input$span) +
-  xlab('Distance from city hall (miles)') + ylab('') + 
-  labs(list(color = "Year")) + 
+p4 <- ggplot(compare_metro(), aes(distmiles, entropy, color = year)) +
+  geom_smooth(se = FALSE, linewidth = 1, method = 'loess', span = input$span) +
+  labs(x = 'Distance from city hall (miles)', 
+       y = '',
+       color = 'Year') + 
   theme_minimal() + 
+  scale_color_brewer(palette = "Set1") + 
   theme(legend.position = c(0.925, 0.925), 
         legend.background = element_blank(), 
         legend.key = element_blank()) 
@@ -342,33 +305,32 @@ plotlyOutput('comparative')
 Row
 -----------------------------------------------------------------------------
 
-### Shifts in neighborhood diversity between 1990 and 2010
+### Shifts in neighborhood diversity between 1990 and 2020
 
-```{r}
+```{r, eval = TRUE}
 
-metrof <- reactive({
+metro_time_series <- reactive({
   
-  return(fortify(metro(), region = 'GEOID'))
+  my_tracts <- metro() %>%
+    select(tract_id)
+  
+  tract_ts <- my_tracts %>%
+    left_join(compare_metro(), by = "tract_id")
   
 })
 
 output$facets <- renderPlot({
 
   ggplot() + 
-    geom_map(data = metrof(), map = metrof(), 
-             aes(x = long, y = lat, map_id = id), fill = NA) + 
-    geom_map(data = compare_metro(), map = metrof(), 
-             aes(fill = entropy, map_id = GEOID), size = 0.1) + 
-    facet_wrap(~year) + 
-    scale_fill_distiller(palette = 'Reds', trans = 'reverse') + 
-    coord_map() + 
-    theme_map(base_size = 16) + 
+    geom_sf(data = metro_time_series(), aes(fill = entropy), color = NA) + 
+    facet_wrap(~year, nrow = 1) + 
+    scale_fill_distiller(palette = 'Reds', direction = 1) + 
+    theme_void(base_size = 14, base_family = "Open Sans") + 
     theme(legend.position = 'bottom', 
           legend.title = element_blank(), 
           legend.key.width = unit(4, 'cm'), 
           strip.background = element_blank(), 
-          strip.text = element_text(face = 'bold', size = 18)) + 
-    guides(fill = guide_colorbar(reverse = TRUE))
+          strip.text = element_text(face = 'bold', size = 18)) 
 })
 
 plotOutput('facets')
@@ -379,25 +341,23 @@ plotOutput('facets')
 About
 ============================================================================
 
-This application is in support of the article in _Urban Studies_, ["Locating neighborhood diversity in the American Metropolis."](http://usj.sagepub.com/content/early/2016/04/29/0042098016643481.abstract)  The article analyzes geographic variations in neighborhood racial and ethnic diversity over time in large metropolitan areas in the United States.  
+This application is in support of the article in _Urban Studies_, ["Locating neighborhood diversity in the American Metropolis."](http://usj.sagepub.com/content/early/2016/04/29/0042098016643481.abstract)  The article analyzes geographic variations in neighborhood racial and ethnic diversity over time in large metropolitan areas in the United States.  As of August 2022, this application is updated with data from the 2020 Decennial US Census.  All data are standardized to 2010 Census tracts thanks to NHGIS.  
 
-The key metric in this article is the neighborhood-level _entropy index_ (called "diversity score" in the application), which measures the degree of neighborhood diversity for four general racial/ethnic groups: non-Hispanic white, non-Hispanic black, Hispanic, and Asian/Pacific Islander.  The entropy index $E$ is calculated as follows (Farrell and Lee 2011):  
+The key metric in this article is the neighborhood-level _entropy index_ (called "diversity score" in the application), which measures the degree of neighborhood diversity for six general racial/ethnic groups: non-Hispanic white, non-Hispanic black, Hispanic, Asian/Pacific Islander, Native American.  The entropy index $E$ is calculated as follows (Farrell and Lee 2011):  
 
 $$E = {\sum\limits_{r=1}^{n}Q_r}ln{\dfrac{1}{Q_r}}$$
 
-where $Q_r$ is group $r$'s proportion of the neighborhood population.  The maximum value of $E$, then, is the natural log of the number of groups - which would occur when all groups in a neighborhood are of equal size. Following [Hall and Lee (2010)](http://usj.sagepub.com/content/47/1/3.abstract), [Farrell and Lee (2011)](http://www.sciencedirect.com/science/article/pii/S0049089X11000706), and [Wright et al. (2014)](http://www.tandfonline.com/doi/abs/10.1080/00330124.2012.735924#.Vwxi7fkrLRY), $E$ is scaled by its maximum by dividing by $ln(4)$, setting the range of values from 0 to 1.  
+where $Q_r$ is group $r$'s proportion of the neighborhood population.  The maximum value of $E$, then, is the natural log of the number of groups - which would occur when all groups in a neighborhood are of equal size. Following [Hall and Lee (2010)](http://usj.sagepub.com/content/47/1/3.abstract), [Farrell and Lee (2011)](http://www.sciencedirect.com/science/article/pii/S0049089X11000706), and [Wright et al. (2014)](http://www.tandfonline.com/doi/abs/10.1080/00330124.2012.735924#.Vwxi7fkrLRY), $E$ is scaled by its maximum by dividing by $ln(6)$, setting the range of values from 0 to 1.  
 
 To study how neighborhood diversity varies with distance from urban cores in the largest metropolitan areas in the United States, entropy indices are plotted against the distance from the Census tract centroids to their corresponding nearest major city hall.  Locally-weighted regression (LOESS) is then used to produce a "diversity gradient" of estimates of neighborhood diversity by distance from the city center.  
 
 This application allows visitors to explore this part of the paper interactively.  The article follows by using local exploratory spatial data analysis techniques to identify how spatial clusters of diversity have shifted over time; this will be the focus of a future application that corresponds to an extension of the study published in _Urban Studies._  
 
-Demographic data for the paper come from [Brown University's Longitudinal Tract Database](http://www.s4.brown.edu/us2010/Researcher/LTDB.htm), and geographic data in the paper come from the [National Historical Geographic Information System](https://www.nhgis.org/).  Geographic data in the application are from the [US Census Bureau's Cartographic Boundary Files](https://www.census.gov/geo/maps-data/data/tiger-cart-boundary.html) and subsequently simplified with the [rmapshaper](https://github.com/ateucher/rmapshaper) R package to improve performance.  
+Demographic data come from [the National Historical Geographic Information System](https://www.nhgis.org/)'s Time Series tables, which standardize decennial Census data from 1990 through 2020 to 2010 Census tracts.  Geographic data in the application are from the [US Census Bureau's Cartographic Boundary Files](https://www.census.gov/geo/maps-data/data/tiger-cart-boundary.html), obtained with the [R tigris package](https://walker-data.com/census-r/census-geographic-data-and-applications-in-r.html). Entropy indices are built with the [R segregation package](https://elbersb.github.io/segregation/index.html).  
 
-The application is built with the [Shiny](http://shiny.rstudio.com) framework for the [R programming language](https://www.r-project.org/). The application layout is produced with the [flexdashboard](http://rstudio.github.io/flexdashboard/index.html) package, and the charts and maps use [Plotly](http://plot.ly), [Leaflet.js](http://leafletjs.com/), [Highcharts](http://www.highcharts.com/), and [ggplot2](http://ggplot2.org/), all accessed through their corresponding R packages.  
+The application is built with the [Shiny](http://shiny.rstudio.com) framework for the [R programming language](https://www.r-project.org/). The application layout is produced with the [flexdashboard](http://rstudio.github.io/flexdashboard/index.html) package, and the charts and maps use [Plotly](http://plot.ly), [Leaflet.js](http://leafletjs.com/), [Highcharts](http://www.highcharts.com/), and [ggplot2](http://ggplot2.org/), all accessed through their corresponding R packages.  Code for the application is available at <https://github.com/walkerke/neighborhood_diversity>.  
 
-Research code for the article is available upon request, and will be formally released this summer as a GitHub repository.  Code for the application is available at <https://github.com/walkerke/neighborhood_diversity>.  
-
-I welcome feedback and suggestions!  [Please visit my personal website](http://personal.tcu.edu/kylewalker/) for contact information or [connect with me on Twitter](https://twitter.com/kyle_e_walker).  
+To learn more about my work, [visit my website](https://walker-data.com) or [connect with me on Twitter](https://twitter.com/kyle_e_walker).  
 
 
 
