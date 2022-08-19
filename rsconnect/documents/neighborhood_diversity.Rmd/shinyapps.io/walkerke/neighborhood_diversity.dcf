@@ -1,0 +1,13 @@
+name: neighborhood_diversity
+title: neighborhood_diversity
+username:
+account: walkerke
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 94080
+bundleId: 6218140
+url: https://walkerke.shinyapps.io/neighborhood_diversity/
+when: 1660921789.07244
+lastSyncTime: 1660921789.07249
+asMultiple: FALSE
+asStatic: FALSE
