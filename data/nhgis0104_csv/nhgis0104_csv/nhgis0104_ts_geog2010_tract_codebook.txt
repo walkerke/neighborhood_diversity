@@ -1,0 +1,626 @@
+--------------------------------------------------------------------------------
+Codebook for NHGIS data file 'nhgis0104_ts_geog2010_tract'
+--------------------------------------------------------------------------------
+ 
+Contents
+    - Data Summary
+    - Data Dictionary
+    - Geographic Integration Methods
+    - Source Data
+    - Citation and Use
+ 
+Detailed notes on time series design and comparability are available at: 
+    https://www.nhgis.org/sites/www.nhgis.org/files/nhgis_time_series_tables.pdf 
+ 
+--------------------------------------------------------------------------------
+Data Summary
+--------------------------------------------------------------------------------
+ 
+Time series layout:     Time varies by column
+Geographic level:       Census Tract (by State--County)
+Geographic integration: Standardized to 2010
+Data measurement years: 1990, 2000, 2010, 2020
+ 
+Tables:
+ 
+1. Persons by Hispanic or Latino Origin [2] by Race [6*]
+   Years: 1990, 2000, 2010, 2020
+   Code:  CW7
+ 
+--------------------------------------------------------------------------------
+Data Dictionary
+--------------------------------------------------------------------------------
+ 
+Context Fields 
+        GISJOIN:     GIS Join Match Code
+        GEOGYEAR:    Geography Year
+        STATE:       State Name
+        STATEA:      State Code
+        COUNTY:      County Name
+        COUNTYA:     County Code
+        TRACTA:      Census Tract Code
+ 
+Table 1: (CW7) Persons by Hispanic or Latino Origin [2] by Race [6*]
+    Time series AA: Persons: Not Hispanic or Latino ~ White (single race)
+        CW7AA1990:   1990: Persons: Not Hispanic or Latino ~ White (single race)
+        CW7AA1990L:  Lower bound: 1990: Persons: Not Hispanic or Latino ~ White (single race)
+        CW7AA1990U:  Upper bound: 1990: Persons: Not Hispanic or Latino ~ White (single race)
+        CW7AA2000:   2000: Persons: Not Hispanic or Latino ~ White (single race)
+        CW7AA2000L:  Lower bound: 2000: Persons: Not Hispanic or Latino ~ White (single race)
+        CW7AA2000U:  Upper bound: 2000: Persons: Not Hispanic or Latino ~ White (single race)
+        CW7AA2010:   2010: Persons: Not Hispanic or Latino ~ White (single race)
+        CW7AA2020:   2020: Persons: Not Hispanic or Latino ~ White (single race)
+        CW7AA2020L:  Lower bound: 2020: Persons: Not Hispanic or Latino ~ White (single race)
+        CW7AA2020U:  Upper bound: 2020: Persons: Not Hispanic or Latino ~ White (single race)
+    Time series AB: Persons: Not Hispanic or Latino ~ Black or African American (single race)
+        CW7AB1990:   1990: Persons: Not Hispanic or Latino ~ Black or African American (single race)
+        CW7AB1990L:  Lower bound: 1990: Persons: Not Hispanic or Latino ~ Black or African American (single race)
+        CW7AB1990U:  Upper bound: 1990: Persons: Not Hispanic or Latino ~ Black or African American (single race)
+        CW7AB2000:   2000: Persons: Not Hispanic or Latino ~ Black or African American (single race)
+        CW7AB2000L:  Lower bound: 2000: Persons: Not Hispanic or Latino ~ Black or African American (single race)
+        CW7AB2000U:  Upper bound: 2000: Persons: Not Hispanic or Latino ~ Black or African American (single race)
+        CW7AB2010:   2010: Persons: Not Hispanic or Latino ~ Black or African American (single race)
+        CW7AB2020:   2020: Persons: Not Hispanic or Latino ~ Black or African American (single race)
+        CW7AB2020L:  Lower bound: 2020: Persons: Not Hispanic or Latino ~ Black or African American (single race)
+        CW7AB2020U:  Upper bound: 2020: Persons: Not Hispanic or Latino ~ Black or African American (single race)
+    Time series AC: Persons: Not Hispanic or Latino ~ American Indian and Alaska Native (single race)
+        CW7AC1990:   1990: Persons: Not Hispanic or Latino ~ American Indian and Alaska Native (single race)
+        CW7AC1990L:  Lower bound: 1990: Persons: Not Hispanic or Latino ~ American Indian and Alaska Native (single race)
+        CW7AC1990U:  Upper bound: 1990: Persons: Not Hispanic or Latino ~ American Indian and Alaska Native (single race)
+        CW7AC2000:   2000: Persons: Not Hispanic or Latino ~ American Indian and Alaska Native (single race)
+        CW7AC2000L:  Lower bound: 2000: Persons: Not Hispanic or Latino ~ American Indian and Alaska Native (single race)
+        CW7AC2000U:  Upper bound: 2000: Persons: Not Hispanic or Latino ~ American Indian and Alaska Native (single race)
+        CW7AC2010:   2010: Persons: Not Hispanic or Latino ~ American Indian and Alaska Native (single race)
+        CW7AC2020:   2020: Persons: Not Hispanic or Latino ~ American Indian and Alaska Native (single race)
+        CW7AC2020L:  Lower bound: 2020: Persons: Not Hispanic or Latino ~ American Indian and Alaska Native (single race)
+        CW7AC2020U:  Upper bound: 2020: Persons: Not Hispanic or Latino ~ American Indian and Alaska Native (single race)
+    Time series AD: Persons: Not Hispanic or Latino ~ Asian and Pacific Islander (single race)
+        CW7AD1990:   1990: Persons: Not Hispanic or Latino ~ Asian and Pacific Islander (single race)
+        CW7AD1990L:  Lower bound: 1990: Persons: Not Hispanic or Latino ~ Asian and Pacific Islander (single race)
+        CW7AD1990U:  Upper bound: 1990: Persons: Not Hispanic or Latino ~ Asian and Pacific Islander (single race)
+        CW7AD2000:   2000: Persons: Not Hispanic or Latino ~ Asian and Pacific Islander (single race)
+        CW7AD2000L:  Lower bound: 2000: Persons: Not Hispanic or Latino ~ Asian and Pacific Islander (single race)
+        CW7AD2000U:  Upper bound: 2000: Persons: Not Hispanic or Latino ~ Asian and Pacific Islander (single race)
+        CW7AD2010:   2010: Persons: Not Hispanic or Latino ~ Asian and Pacific Islander (single race)
+        CW7AD2020:   2020: Persons: Not Hispanic or Latino ~ Asian and Pacific Islander (single race)
+        CW7AD2020L:  Lower bound: 2020: Persons: Not Hispanic or Latino ~ Asian and Pacific Islander (single race)
+        CW7AD2020U:  Upper bound: 2020: Persons: Not Hispanic or Latino ~ Asian and Pacific Islander (single race)
+    Time series AE: Persons: Not Hispanic or Latino ~ Some Other Race (single race)
+        CW7AE1990:   1990: Persons: Not Hispanic or Latino ~ Some Other Race (single race)
+        CW7AE1990L:  Lower bound: 1990: Persons: Not Hispanic or Latino ~ Some Other Race (single race)
+        CW7AE1990U:  Upper bound: 1990: Persons: Not Hispanic or Latino ~ Some Other Race (single race)
+        CW7AE2000:   2000: Persons: Not Hispanic or Latino ~ Some Other Race (single race)
+        CW7AE2000L:  Lower bound: 2000: Persons: Not Hispanic or Latino ~ Some Other Race (single race)
+        CW7AE2000U:  Upper bound: 2000: Persons: Not Hispanic or Latino ~ Some Other Race (single race)
+        CW7AE2010:   2010: Persons: Not Hispanic or Latino ~ Some Other Race (single race)
+        CW7AE2020:   2020: Persons: Not Hispanic or Latino ~ Some Other Race (single race)
+        CW7AE2020L:  Lower bound: 2020: Persons: Not Hispanic or Latino ~ Some Other Race (single race)
+        CW7AE2020U:  Upper bound: 2020: Persons: Not Hispanic or Latino ~ Some Other Race (single race)
+    Time series AF: Persons: Not Hispanic or Latino ~ Two or More Races
+        CW7AF1990:   1990: Persons: Not Hispanic or Latino ~ Two or More Races
+        CW7AF2000:   2000: Persons: Not Hispanic or Latino ~ Two or More Races
+        CW7AF2000L:  Lower bound: 2000: Persons: Not Hispanic or Latino ~ Two or More Races
+        CW7AF2000U:  Upper bound: 2000: Persons: Not Hispanic or Latino ~ Two or More Races
+        CW7AF2010:   2010: Persons: Not Hispanic or Latino ~ Two or More Races
+        CW7AF2020:   2020: Persons: Not Hispanic or Latino ~ Two or More Races
+        CW7AF2020L:  Lower bound: 2020: Persons: Not Hispanic or Latino ~ Two or More Races
+        CW7AF2020U:  Upper bound: 2020: Persons: Not Hispanic or Latino ~ Two or More Races
+    Time series AG: Persons: Hispanic or Latino ~ White (single race)
+        CW7AG1990:   1990: Persons: Hispanic or Latino ~ White (single race)
+        CW7AG1990L:  Lower bound: 1990: Persons: Hispanic or Latino ~ White (single race)
+        CW7AG1990U:  Upper bound: 1990: Persons: Hispanic or Latino ~ White (single race)
+        CW7AG2000:   2000: Persons: Hispanic or Latino ~ White (single race)
+        CW7AG2000L:  Lower bound: 2000: Persons: Hispanic or Latino ~ White (single race)
+        CW7AG2000U:  Upper bound: 2000: Persons: Hispanic or Latino ~ White (single race)
+        CW7AG2010:   2010: Persons: Hispanic or Latino ~ White (single race)
+        CW7AG2020:   2020: Persons: Hispanic or Latino ~ White (single race)
+        CW7AG2020L:  Lower bound: 2020: Persons: Hispanic or Latino ~ White (single race)
+        CW7AG2020U:  Upper bound: 2020: Persons: Hispanic or Latino ~ White (single race)
+    Time series AH: Persons: Hispanic or Latino ~ Black or African American (single race)
+        CW7AH1990:   1990: Persons: Hispanic or Latino ~ Black or African American (single race)
+        CW7AH1990L:  Lower bound: 1990: Persons: Hispanic or Latino ~ Black or African American (single race)
+        CW7AH1990U:  Upper bound: 1990: Persons: Hispanic or Latino ~ Black or African American (single race)
+        CW7AH2000:   2000: Persons: Hispanic or Latino ~ Black or African American (single race)
+        CW7AH2000L:  Lower bound: 2000: Persons: Hispanic or Latino ~ Black or African American (single race)
+        CW7AH2000U:  Upper bound: 2000: Persons: Hispanic or Latino ~ Black or African American (single race)
+        CW7AH2010:   2010: Persons: Hispanic or Latino ~ Black or African American (single race)
+        CW7AH2020:   2020: Persons: Hispanic or Latino ~ Black or African American (single race)
+        CW7AH2020L:  Lower bound: 2020: Persons: Hispanic or Latino ~ Black or African American (single race)
+        CW7AH2020U:  Upper bound: 2020: Persons: Hispanic or Latino ~ Black or African American (single race)
+    Time series AI: Persons: Hispanic or Latino ~ American Indian and Alaska Native (single race)
+        CW7AI1990:   1990: Persons: Hispanic or Latino ~ American Indian and Alaska Native (single race)
+        CW7AI1990L:  Lower bound: 1990: Persons: Hispanic or Latino ~ American Indian and Alaska Native (single race)
+        CW7AI1990U:  Upper bound: 1990: Persons: Hispanic or Latino ~ American Indian and Alaska Native (single race)
+        CW7AI2000:   2000: Persons: Hispanic or Latino ~ American Indian and Alaska Native (single race)
+        CW7AI2000L:  Lower bound: 2000: Persons: Hispanic or Latino ~ American Indian and Alaska Native (single race)
+        CW7AI2000U:  Upper bound: 2000: Persons: Hispanic or Latino ~ American Indian and Alaska Native (single race)
+        CW7AI2010:   2010: Persons: Hispanic or Latino ~ American Indian and Alaska Native (single race)
+        CW7AI2020:   2020: Persons: Hispanic or Latino ~ American Indian and Alaska Native (single race)
+        CW7AI2020L:  Lower bound: 2020: Persons: Hispanic or Latino ~ American Indian and Alaska Native (single race)
+        CW7AI2020U:  Upper bound: 2020: Persons: Hispanic or Latino ~ American Indian and Alaska Native (single race)
+    Time series AJ: Persons: Hispanic or Latino ~ Asian and Pacific Islander (single race)
+        CW7AJ1990:   1990: Persons: Hispanic or Latino ~ Asian and Pacific Islander (single race)
+        CW7AJ1990L:  Lower bound: 1990: Persons: Hispanic or Latino ~ Asian and Pacific Islander (single race)
+        CW7AJ1990U:  Upper bound: 1990: Persons: Hispanic or Latino ~ Asian and Pacific Islander (single race)
+        CW7AJ2000:   2000: Persons: Hispanic or Latino ~ Asian and Pacific Islander (single race)
+        CW7AJ2000L:  Lower bound: 2000: Persons: Hispanic or Latino ~ Asian and Pacific Islander (single race)
+        CW7AJ2000U:  Upper bound: 2000: Persons: Hispanic or Latino ~ Asian and Pacific Islander (single race)
+        CW7AJ2010:   2010: Persons: Hispanic or Latino ~ Asian and Pacific Islander (single race)
+        CW7AJ2020:   2020: Persons: Hispanic or Latino ~ Asian and Pacific Islander (single race)
+        CW7AJ2020L:  Lower bound: 2020: Persons: Hispanic or Latino ~ Asian and Pacific Islander (single race)
+        CW7AJ2020U:  Upper bound: 2020: Persons: Hispanic or Latino ~ Asian and Pacific Islander (single race)
+    Time series AK: Persons: Hispanic or Latino ~ Some Other Race (single race)
+        CW7AK1990:   1990: Persons: Hispanic or Latino ~ Some Other Race (single race)
+        CW7AK1990L:  Lower bound: 1990: Persons: Hispanic or Latino ~ Some Other Race (single race)
+        CW7AK1990U:  Upper bound: 1990: Persons: Hispanic or Latino ~ Some Other Race (single race)
+        CW7AK2000:   2000: Persons: Hispanic or Latino ~ Some Other Race (single race)
+        CW7AK2000L:  Lower bound: 2000: Persons: Hispanic or Latino ~ Some Other Race (single race)
+        CW7AK2000U:  Upper bound: 2000: Persons: Hispanic or Latino ~ Some Other Race (single race)
+        CW7AK2010:   2010: Persons: Hispanic or Latino ~ Some Other Race (single race)
+        CW7AK2020:   2020: Persons: Hispanic or Latino ~ Some Other Race (single race)
+        CW7AK2020L:  Lower bound: 2020: Persons: Hispanic or Latino ~ Some Other Race (single race)
+        CW7AK2020U:  Upper bound: 2020: Persons: Hispanic or Latino ~ Some Other Race (single race)
+    Time series AL: Persons: Hispanic or Latino ~ Two or More Races
+        CW7AL1990:   1990: Persons: Hispanic or Latino ~ Two or More Races
+        CW7AL2000:   2000: Persons: Hispanic or Latino ~ Two or More Races
+        CW7AL2000L:  Lower bound: 2000: Persons: Hispanic or Latino ~ Two or More Races
+        CW7AL2000U:  Upper bound: 2000: Persons: Hispanic or Latino ~ Two or More Races
+        CW7AL2010:   2010: Persons: Hispanic or Latino ~ Two or More Races
+        CW7AL2020:   2020: Persons: Hispanic or Latino ~ Two or More Races
+        CW7AL2020L:  Lower bound: 2020: Persons: Hispanic or Latino ~ Two or More Races
+        CW7AL2020U:  Upper bound: 2020: Persons: Hispanic or Latino ~ Two or More Races
+ 
+--------------------------------------------------------------------------------
+Geographic Integration Methods
+--------------------------------------------------------------------------------
+ 
+1990 Block Data Standardized to 2010 Geography:
+
+    NHGIS standardizes the 1990 data in these time series tables to 2010 census
+    geography in two steps, first allocating census counts from 1990 census
+    blocks to 2010 census blocks and then summing the reallocated 1990 counts
+    for all 2010 blocks that lie within each target 2010 unit. In cases where a
+    1990 block may intersect multiple 2010 units, NHGIS applies interpolation to
+    estimate how 1990 block characteristics are distributed among the
+    intersecting 2010 blocks, primarily using the population and housing
+    densities of 2000 and 2010 blocks to model the distribution of 1990
+    characteristics within 1990 blocks.
+    
+    For details on the interpolation model, see:
+    https://www.nhgis.org/documentation/time-series/1990-blocks-to-2010-geog
+
+2000 Block Data Standardized to 2010 Geography:
+
+    NHGIS standardizes the 2000 data in these time series tables to 2010 census
+    geography in two steps, first allocating census counts from 2000 census
+    blocks to 2010 census blocks and then summing the reallocated 2000 counts
+    for all 2010 blocks that lie within each target 2010 unit. Where a 2000
+    block intersects multiple 2010 blocks, NHGIS applies areal interpolation to
+    estimate how the 2000 block characteristics are distributed among the
+    intersecting 2010 blocks.
+    
+    In addition to the 2000 block data drawn from 2000 Census Summary File 1
+    (NHGIS dataset 2000_SF1b), NHGIS uses information from three ancillary
+    sources to refine the interpolation model:
+    
+    * 2010 census block population and housing unit counts from 2010 Census
+    Summary File 1 (NHGIS dataset 2010_SF1a)
+    
+    * Locations of residential roads from the U.S. Census Bureau's 2010
+    TIGER/Line Shapefiles
+    
+    * Extents of developed land, which we define as 30-meter square cells in the
+    2001 National Land Cover Database (NLCD 2001) (2011 Edition) with at least
+    5% of their area covered by impervious surface.
+    
+    For details on the interpolation model, see:
+    https://www.nhgis.org/documentation/time-series/2000-blocks-to-2010-geog
+
+2010 Standardized Data:
+
+    For time series tables that are standardized to 2010 census geography, NHGIS
+    draws the 2010 data directly from 2010 Census Summary Files without any
+    estimation. The only adjustment NHGIS may make to the 2010 source data is,
+    for some time series, to sum source counts together to compute larger
+    subtotals.
+
+2020 Block Data Standardized to 2010 Geography:
+
+    NHGIS standardizes the 2020 data to 2010 census geography in two steps,
+    first allocating census counts from 2020 census blocks to 2010 census blocks
+    and then summing the reallocated 2020 counts for all 2010 blocks that lie
+    within each target 2010 unit. Where a 2020 block intersects multiple 2010
+    units, NHGIS uses the population and housing densities of 2010 blocks to
+    model the distribution of 2020 characteristics within 2020 blocks.
+    
+    For more details, see:
+    https://www.nhgis.org/time-series-tables#standardization
+
+Complete documentation on time series integration methods is available at:
+    https://www.nhgis.org/documentation/time-series
+ 
+--------------------------------------------------------------------------------
+Source Data
+--------------------------------------------------------------------------------
+ 
+Additional documentation on NHGIS data sources is available at:
+    https://www.nhgis.org/documentation/tabular-data
+
+Table 1: (CW7) Persons by Hispanic or Latino Origin [2] by Race [6*]
+ 
+    Time series AA: Persons: Not Hispanic or Latino ~ White (single race)
+        Year: 1990
+            Source geographic level: Block (by State--County--Tract)
+            Source dataset: 1990 Census: STF 1 - 100% Data
+                Source table: NP10. Hispanic Origin by Race
+                    Universe: Persons
+                        Variable: [ET2001] Not of Hispanic origin >> White
+        Year: 2000
+            Source geographic level: Block (by State--County--Tract)
+            Source dataset: 2000 Census: SF 1b - 100% Data [Blocks & Block Groups]
+                Source table: NP008A. Population by Hispanic or Latino and Not Hispanic or Latino by Race
+                    Universe: Persons
+                        Variable: [FYF001] Not Hispanic or Latino >> White alone
+        Year: 2010
+            Source geographic level: Census Tract (by State--County)
+            Source dataset: 2010 Census: SF 1a - P & H Tables [Blocks & Larger Areas]
+                Source table: P5. Hispanic or Latino Origin by Race
+                    Universe: Total population
+                        Variable: [H7Z003] Not Hispanic or Latino: White alone
+        Year: 2020
+            Source geographic level: Block (by State--County--Tract)
+            Source dataset: 2020 Census: P.L. 94-171 Redistricting Data Summary File
+                Source table: P2. Hispanic or Latino, and Not Hispanic or Latino by Race
+                    Universe: Total population
+                        Variable: [U7C005] Not Hispanic or Latino: Population of one race: White alone
+ 
+    Time series AB: Persons: Not Hispanic or Latino ~ Black or African American (single race)
+        Year: 1990
+            Source geographic level: Block (by State--County--Tract)
+            Source dataset: 1990 Census: STF 1 - 100% Data
+                Source table: NP10. Hispanic Origin by Race
+                    Universe: Persons
+                        Variable: [ET2002] Not of Hispanic origin >> Black
+        Year: 2000
+            Source geographic level: Block (by State--County--Tract)
+            Source dataset: 2000 Census: SF 1b - 100% Data [Blocks & Block Groups]
+                Source table: NP008A. Population by Hispanic or Latino and Not Hispanic or Latino by Race
+                    Universe: Persons
+                        Variable: [FYF002] Not Hispanic or Latino >> Black or African American alone
+        Year: 2010
+            Source geographic level: Census Tract (by State--County)
+            Source dataset: 2010 Census: SF 1a - P & H Tables [Blocks & Larger Areas]
+                Source table: P5. Hispanic or Latino Origin by Race
+                    Universe: Total population
+                        Variable: [H7Z004] Not Hispanic or Latino: Black or African American alone
+        Year: 2020
+            Source geographic level: Block (by State--County--Tract)
+            Source dataset: 2020 Census: P.L. 94-171 Redistricting Data Summary File
+                Source table: P2. Hispanic or Latino, and Not Hispanic or Latino by Race
+                    Universe: Total population
+                        Variable: [U7C006] Not Hispanic or Latino: Population of one race: Black or African American alone
+ 
+    Time series AC: Persons: Not Hispanic or Latino ~ American Indian and Alaska Native (single race)
+        Year: 1990
+            Source geographic level: Block (by State--County--Tract)
+            Source dataset: 1990 Census: STF 1 - 100% Data
+                Source table: NP10. Hispanic Origin by Race
+                    Universe: Persons
+                        Variable: [ET2003] Not of Hispanic origin >> American Indian, Eskimo, or Aleut
+        Year: 2000
+            Source geographic level: Block (by State--County--Tract)
+            Source dataset: 2000 Census: SF 1b - 100% Data [Blocks & Block Groups]
+                Source table: NP008A. Population by Hispanic or Latino and Not Hispanic or Latino by Race
+                    Universe: Persons
+                        Variable: [FYF003] Not Hispanic or Latino >> American Indian and Alaska Native alone
+        Year: 2010
+            Source geographic level: Census Tract (by State--County)
+            Source dataset: 2010 Census: SF 1a - P & H Tables [Blocks & Larger Areas]
+                Source table: P5. Hispanic or Latino Origin by Race
+                    Universe: Total population
+                        Variable: [H7Z005] Not Hispanic or Latino: American Indian and Alaska Native alone
+        Year: 2020
+            Source geographic level: Block (by State--County--Tract)
+            Source dataset: 2020 Census: P.L. 94-171 Redistricting Data Summary File
+                Source table: P2. Hispanic or Latino, and Not Hispanic or Latino by Race
+                    Universe: Total population
+                        Variable: [U7C007] Not Hispanic or Latino: Population of one race: American Indian and Alaska Native alone
+ 
+    Time series AD: Persons: Not Hispanic or Latino ~ Asian and Pacific Islander (single race)
+        Year: 1990
+            Source geographic level: Block (by State--County--Tract)
+            Source dataset: 1990 Census: STF 1 - 100% Data
+                Source table: NP10. Hispanic Origin by Race
+                    Universe: Persons
+                        Variable: [ET2004] Not of Hispanic origin >> Asian or Pacific Islander
+        Year: 2000
+            Source geographic level: Block (by State--County--Tract)
+            Source dataset: 2000 Census: SF 1b - 100% Data [Blocks & Block Groups]
+                Source table: NP008A. Population by Hispanic or Latino and Not Hispanic or Latino by Race
+                    Universe: Persons
+                        Variable: [FYF004] Not Hispanic or Latino >> Asian alone
+                        Variable: [FYF005] Not Hispanic or Latino >> Native Hawaiian and Other Pacific Islander alone
+        Year: 2010
+            Source geographic level: Census Tract (by State--County)
+            Source dataset: 2010 Census: SF 1a - P & H Tables [Blocks & Larger Areas]
+                Source table: P5. Hispanic or Latino Origin by Race
+                    Universe: Total population
+                        Variable: [H7Z006] Not Hispanic or Latino: Asian alone
+                        Variable: [H7Z007] Not Hispanic or Latino: Native Hawaiian and Other Pacific Islander alone
+        Year: 2020
+            Source geographic level: Block (by State--County--Tract)
+            Source dataset: 2020 Census: P.L. 94-171 Redistricting Data Summary File
+                Source table: P2. Hispanic or Latino, and Not Hispanic or Latino by Race
+                    Universe: Total population
+                        Variable: [U7C008] Not Hispanic or Latino: Population of one race: Asian alone
+                        Variable: [U7C009] Not Hispanic or Latino: Population of one race: Native Hawaiian and Other Pacific Islander alone
+ 
+    Time series AE: Persons: Not Hispanic or Latino ~ Some Other Race (single race)
+        Year: 1990
+            Source geographic level: Block (by State--County--Tract)
+            Source dataset: 1990 Census: STF 1 - 100% Data
+                Source table: NP10. Hispanic Origin by Race
+                    Universe: Persons
+                        Variable: [ET2005] Not of Hispanic origin >> Other race
+        Year: 2000
+            Source geographic level: Block (by State--County--Tract)
+            Source dataset: 2000 Census: SF 1b - 100% Data [Blocks & Block Groups]
+                Source table: NP008A. Population by Hispanic or Latino and Not Hispanic or Latino by Race
+                    Universe: Persons
+                        Variable: [FYF006] Not Hispanic or Latino >> Some other race alone
+        Year: 2010
+            Source geographic level: Census Tract (by State--County)
+            Source dataset: 2010 Census: SF 1a - P & H Tables [Blocks & Larger Areas]
+                Source table: P5. Hispanic or Latino Origin by Race
+                    Universe: Total population
+                        Variable: [H7Z008] Not Hispanic or Latino: Some Other Race alone
+        Year: 2020
+            Source geographic level: Block (by State--County--Tract)
+            Source dataset: 2020 Census: P.L. 94-171 Redistricting Data Summary File
+                Source table: P2. Hispanic or Latino, and Not Hispanic or Latino by Race
+                    Universe: Total population
+                        Variable: [U7C010] Not Hispanic or Latino: Population of one race: Some Other Race alone
+ 
+    Time series AF: Persons: Not Hispanic or Latino ~ Two or More Races
+        Year: 1990
+            *NOT AVAILABLE for this time*
+        Year: 2000
+            Source geographic level: Block (by State--County--Tract)
+            Source dataset: 2000 Census: SF 1b - 100% Data [Blocks & Block Groups]
+                Source table: NP008A. Population by Hispanic or Latino and Not Hispanic or Latino by Race
+                    Universe: Persons
+                        Variable: [FYF007] Not Hispanic or Latino >> Two or more races
+        Year: 2010
+            Source geographic level: Census Tract (by State--County)
+            Source dataset: 2010 Census: SF 1a - P & H Tables [Blocks & Larger Areas]
+                Source table: P5. Hispanic or Latino Origin by Race
+                    Universe: Total population
+                        Variable: [H7Z009] Not Hispanic or Latino: Two or More Races
+        Year: 2020
+            Source geographic level: Block (by State--County--Tract)
+            Source dataset: 2020 Census: P.L. 94-171 Redistricting Data Summary File
+                Source table: P2. Hispanic or Latino, and Not Hispanic or Latino by Race
+                    Universe: Total population
+                        Variable: [U7C011] Not Hispanic or Latino: Population of two or more races
+ 
+    Time series AG: Persons: Hispanic or Latino ~ White (single race)
+        Year: 1990
+            Source geographic level: Block (by State--County--Tract)
+            Source dataset: 1990 Census: STF 1 - 100% Data
+                Source table: NP10. Hispanic Origin by Race
+                    Universe: Persons
+                        Variable: [ET2006] Hispanic origin >> White
+        Year: 2000
+            Source geographic level: Block (by State--County--Tract)
+            Source dataset: 2000 Census: SF 1b - 100% Data [Blocks & Block Groups]
+                Source table: NP008A. Population by Hispanic or Latino and Not Hispanic or Latino by Race
+                    Universe: Persons
+                        Variable: [FYF008] Hispanic or Latino >> White alone
+        Year: 2010
+            Source geographic level: Census Tract (by State--County)
+            Source dataset: 2010 Census: SF 1a - P & H Tables [Blocks & Larger Areas]
+                Source table: P5. Hispanic or Latino Origin by Race
+                    Universe: Total population
+                        Variable: [H7Z011] Hispanic or Latino: White alone
+        Year: 2020
+            Source geographic level: Block (by State--County--Tract)
+            Source dataset: 2020 Census: P.L. 94-171 Redistricting Data Summary File
+                Source table: P1. Race
+                    Universe: Total population
+                        + Variable: [U7B003] Population of one race: White alone
+                Source table: P2. Hispanic or Latino, and Not Hispanic or Latino by Race
+                    Universe: Total population
+                        - Variable: [U7C005] Not Hispanic or Latino: Population of one race: White alone
+ 
+    Time series AH: Persons: Hispanic or Latino ~ Black or African American (single race)
+        Year: 1990
+            Source geographic level: Block (by State--County--Tract)
+            Source dataset: 1990 Census: STF 1 - 100% Data
+                Source table: NP10. Hispanic Origin by Race
+                    Universe: Persons
+                        Variable: [ET2007] Hispanic origin >> Black
+        Year: 2000
+            Source geographic level: Block (by State--County--Tract)
+            Source dataset: 2000 Census: SF 1b - 100% Data [Blocks & Block Groups]
+                Source table: NP008A. Population by Hispanic or Latino and Not Hispanic or Latino by Race
+                    Universe: Persons
+                        Variable: [FYF009] Hispanic or Latino >> Black or African American alone
+        Year: 2010
+            Source geographic level: Census Tract (by State--County)
+            Source dataset: 2010 Census: SF 1a - P & H Tables [Blocks & Larger Areas]
+                Source table: P5. Hispanic or Latino Origin by Race
+                    Universe: Total population
+                        Variable: [H7Z012] Hispanic or Latino: Black or African American alone
+        Year: 2020
+            Source geographic level: Block (by State--County--Tract)
+            Source dataset: 2020 Census: P.L. 94-171 Redistricting Data Summary File
+                Source table: P1. Race
+                    Universe: Total population
+                        + Variable: [U7B004] Population of one race: Black or African American alone
+                Source table: P2. Hispanic or Latino, and Not Hispanic or Latino by Race
+                    Universe: Total population
+                        - Variable: [U7C006] Not Hispanic or Latino: Population of one race: Black or African American alone
+ 
+    Time series AI: Persons: Hispanic or Latino ~ American Indian and Alaska Native (single race)
+        Year: 1990
+            Source geographic level: Block (by State--County--Tract)
+            Source dataset: 1990 Census: STF 1 - 100% Data
+                Source table: NP10. Hispanic Origin by Race
+                    Universe: Persons
+                        Variable: [ET2008] Hispanic origin >> American Indian, Eskimo, or Aleut
+        Year: 2000
+            Source geographic level: Block (by State--County--Tract)
+            Source dataset: 2000 Census: SF 1b - 100% Data [Blocks & Block Groups]
+                Source table: NP008A. Population by Hispanic or Latino and Not Hispanic or Latino by Race
+                    Universe: Persons
+                        Variable: [FYF010] Hispanic or Latino >> American Indian and Alaska Native alone
+        Year: 2010
+            Source geographic level: Census Tract (by State--County)
+            Source dataset: 2010 Census: SF 1a - P & H Tables [Blocks & Larger Areas]
+                Source table: P5. Hispanic or Latino Origin by Race
+                    Universe: Total population
+                        Variable: [H7Z013] Hispanic or Latino: American Indian and Alaska Native alone
+        Year: 2020
+            Source geographic level: Block (by State--County--Tract)
+            Source dataset: 2020 Census: P.L. 94-171 Redistricting Data Summary File
+                Source table: P1. Race
+                    Universe: Total population
+                        + Variable: [U7B005] Population of one race: American Indian and Alaska Native alone
+                Source table: P2. Hispanic or Latino, and Not Hispanic or Latino by Race
+                    Universe: Total population
+                        - Variable: [U7C007] Not Hispanic or Latino: Population of one race: American Indian and Alaska Native alone
+ 
+    Time series AJ: Persons: Hispanic or Latino ~ Asian and Pacific Islander (single race)
+        Year: 1990
+            Source geographic level: Block (by State--County--Tract)
+            Source dataset: 1990 Census: STF 1 - 100% Data
+                Source table: NP10. Hispanic Origin by Race
+                    Universe: Persons
+                        Variable: [ET2009] Hispanic origin >> Asian or Pacific Islander
+        Year: 2000
+            Source geographic level: Block (by State--County--Tract)
+            Source dataset: 2000 Census: SF 1b - 100% Data [Blocks & Block Groups]
+                Source table: NP008A. Population by Hispanic or Latino and Not Hispanic or Latino by Race
+                    Universe: Persons
+                        Variable: [FYF011] Hispanic or Latino >> Asian alone
+                        Variable: [FYF012] Hispanic or Latino >> Native Hawaiian and Other Pacific Islander alone
+        Year: 2010
+            Source geographic level: Census Tract (by State--County)
+            Source dataset: 2010 Census: SF 1a - P & H Tables [Blocks & Larger Areas]
+                Source table: P5. Hispanic or Latino Origin by Race
+                    Universe: Total population
+                        Variable: [H7Z014] Hispanic or Latino: Asian alone
+                        Variable: [H7Z015] Hispanic or Latino: Native Hawaiian and Other Pacific Islander alone
+        Year: 2020
+            Source geographic level: Block (by State--County--Tract)
+            Source dataset: 2020 Census: P.L. 94-171 Redistricting Data Summary File
+                Source table: P1. Race
+                    Universe: Total population
+                        + Variable: [U7B006] Population of one race: Asian alone
+                        + Variable: [U7B007] Population of one race: Native Hawaiian and Other Pacific Islander alone
+                Source table: P2. Hispanic or Latino, and Not Hispanic or Latino by Race
+                    Universe: Total population
+                        - Variable: [U7C008] Not Hispanic or Latino: Population of one race: Asian alone
+                        - Variable: [U7C009] Not Hispanic or Latino: Population of one race: Native Hawaiian and Other Pacific Islander alone
+ 
+    Time series AK: Persons: Hispanic or Latino ~ Some Other Race (single race)
+        Year: 1990
+            Source geographic level: Block (by State--County--Tract)
+            Source dataset: 1990 Census: STF 1 - 100% Data
+                Source table: NP10. Hispanic Origin by Race
+                    Universe: Persons
+                        Variable: [ET2010] Hispanic origin >> Other race
+        Year: 2000
+            Source geographic level: Block (by State--County--Tract)
+            Source dataset: 2000 Census: SF 1b - 100% Data [Blocks & Block Groups]
+                Source table: NP008A. Population by Hispanic or Latino and Not Hispanic or Latino by Race
+                    Universe: Persons
+                        Variable: [FYF013] Hispanic or Latino >> Some other race alone
+        Year: 2010
+            Source geographic level: Census Tract (by State--County)
+            Source dataset: 2010 Census: SF 1a - P & H Tables [Blocks & Larger Areas]
+                Source table: P5. Hispanic or Latino Origin by Race
+                    Universe: Total population
+                        Variable: [H7Z016] Hispanic or Latino: Some Other Race alone
+        Year: 2020
+            Source geographic level: Block (by State--County--Tract)
+            Source dataset: 2020 Census: P.L. 94-171 Redistricting Data Summary File
+                Source table: P1. Race
+                    Universe: Total population
+                        + Variable: [U7B008] Population of one race: Some Other Race alone
+                Source table: P2. Hispanic or Latino, and Not Hispanic or Latino by Race
+                    Universe: Total population
+                        - Variable: [U7C010] Not Hispanic or Latino: Population of one race: Some Other Race alone
+ 
+    Time series AL: Persons: Hispanic or Latino ~ Two or More Races
+        Year: 1990
+            *NOT AVAILABLE for this time*
+        Year: 2000
+            Source geographic level: Block (by State--County--Tract)
+            Source dataset: 2000 Census: SF 1b - 100% Data [Blocks & Block Groups]
+                Source table: NP008A. Population by Hispanic or Latino and Not Hispanic or Latino by Race
+                    Universe: Persons
+                        Variable: [FYF014] Hispanic or Latino >> Two or more races
+        Year: 2010
+            Source geographic level: Census Tract (by State--County)
+            Source dataset: 2010 Census: SF 1a - P & H Tables [Blocks & Larger Areas]
+                Source table: P5. Hispanic or Latino Origin by Race
+                    Universe: Total population
+                        Variable: [H7Z017] Hispanic or Latino: Two or More Races
+        Year: 2020
+            Source geographic level: Block (by State--County--Tract)
+            Source dataset: 2020 Census: P.L. 94-171 Redistricting Data Summary File
+                Source table: P1. Race
+                    Universe: Total population
+                        + Variable: [U7B009] Population of two or more races
+                Source table: P2. Hispanic or Latino, and Not Hispanic or Latino by Race
+                    Universe: Total population
+                        - Variable: [U7C011] Not Hispanic or Latino: Population of two or more races
+ 
+--------------------------------------------------------------------------------
+Citation and Use of NHGIS Data
+--------------------------------------------------------------------------------
+ 
+All persons are granted a limited license to use this documentation and the
+accompanying data, subject to the following conditions:
+
+* REDISTRIBUTION: You will not redistribute the data without permission.
+
+  You may publish a subset of the data to meet journal requirements for accessing 
+  data related to a particular publication. Contact us for permission for any other 
+  redistribution; we will consider requests for free and commercial redistribution.
+
+* CITATION: You will cite NHGIS appropriately.
+
+    * Publications and research reports employing NHGIS data (either tabular or GIS) 
+      should include the following citation:
+
+        Steven Manson, Jonathan Schroeder, David Van Riper, Tracy Kugler, and Steven Ruggles. 
+        IPUMS National Historical Geographic Information System: Version 16.0 
+        [dataset]. Minneapolis, MN: IPUMS. 2021. 
+        http://doi.org/10.18128/D050.V16.0
+
+    * For policy briefs, online resources, or articles in the popular press, we 
+      recommend that you cite the use of NHGIS data as follows:
+
+        IPUMS NHGIS, University of Minnesota, www.nhgis.org.
+
+These terms of use are a legally binding agreement. You can use the data only in 
+accordance with these terms, and any other use is a violation of the agreement. 
+Violations may result in revocation of the agreement and prohibition from using other 
+IPUMS data. If IPUMS or our partners are harmed from your violation, you are 
+responsible for all damages, including reasonable attorney's fees and expenses.
+        
+In addition, we request that users send us a copy of any publications, research
+reports, or educational material making use of the data or documentation.
+
+Send electronic material to: nhgis@umn.edu
+
+Printed matter should be sent to:
+
+    IPUMS NHGIS
+    Institute for Social Research and Data Innovation
+    University of Minnesota
+    50 Willey Hall
+    225 19th Ave S
+    Minneapolis, MN 55455

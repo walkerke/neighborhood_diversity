@@ -1,0 +1,55 @@
+X,Y,metro,metro_id,address,city,state,zip
+-84.390267,33.747917,"Atlanta-Sandy Springs-Marietta, GA Metro Area",12060,55 Trinity Ave,Atlanta,GA,30303
+-97.746682,30.26499,"Austin-Round Rock-San Marcos, TX Metro Area",12420,301 W 2nd St,Austin,TX,78701
+-76.610257,39.290691,"Baltimore-Towson, MD Metro Area",12580,100 N Holliday Street,Baltimore,MD,21202
+-86.810567,33.520202,"Birmingham-Hoover, AL Metro Area",13820,710 20th Street N,Birmingham,AL,35203
+-71.057294,42.360166,"Boston-Cambridge-Quincy, MA-NH Metro Area",14460,1 City Hall Square,Boston,MA,02201
+-78.878837,42.886517,"Buffalo-Niagara Falls, NY Metro Area",15380,65 Niagara Square,Buffalo,NY,14202
+-80.837581,35.222488,"Charlotte-Gastonia-Rock Hill, NC-SC Metro Area",16740,600 E Trade St,Charlotte,NC,28202
+-87.632324,41.883814,"Chicago-Joliet-Naperville, IL-IN-WI Metro Area",16980,121 N La Salle St,Chicago,IL,60602
+-84.518806,39.104273,"Cincinnati-Middletown, OH-KY-IN Metro Area",17140,801 Plum St,Cincinnati,OH,45202
+-81.693285,41.504666,"Cleveland-Elyria-Mentor, OH Metro Area",17460,601 Lakeside Ave,Cleveland,OH,44114
+-83.003174,39.961968,"Columbus, OH Metro Area",18140,90 W Broad St,Columbus,OH,43215
+-96.79749,32.776497,"Dallas-Fort Worth-Arlington, TX Metro Area",19100,1500 Marilla St,Dallas,TX,75201
+-97.330637,32.750564,"Dallas-Fort Worth-Arlington, TX Metro Area",19100,1000 Throckmorton St,Fort Worth,TX,76102
+-104.987346,39.73473,"Denver-Aurora-Broomfield, CO Metro Area",19740,1144 Broadway,Denver,CO,80203
+-83.044715,42.329169,"Detroit-Warren-Livonia, MI Metro Area",19820,2 Woodward Ave,Detroit,MI,48226
+-72.674208,41.76275,"Hartford-West Hartford-East Hartford, CT Metro Area",25540,550 Main St,Hartford,CT,06103
+-95.369758,29.760442,"Houston-Sugar Land-Baytown, TX Metro Area",26420,901 Bagby St,Houston,TX,77002
+-86.153551,39.767018,"Indianapolis-Carmel, IN Metro Area",26900,200 E Washington St,Indianapolis,IN,46204
+-81.659476,30.329837,"Jacksonville, FL Metro Area",27260,117 W Duval St,Jacksonville,FL,32202
+-94.577601,39.099768,"Kansas City, MO-KS Metro Area",28140,414 E 12th St,Kansas City,MO,64106
+-115.148774,36.167953,"Las Vegas-Paradise, NV Metro Area",29820,495 S Main St,Las Vegas,NV,89101
+-118.243899,34.05349,"Los Angeles-Long Beach-Santa Ana, CA Metro Area",31080,200 N Spring St,Los Angeles,CA,90012
+-85.741949,38.252258,"Louisville/Jefferson County, KY-IN Metro Area",31140,601 W Jefferson St,Louisville,KY,40202
+-90.051519,35.148577,"Memphis, TN-MS-AR Metro Area",32820,125 N Main St,Memphis,TN,38103
+-80.234106,25.727837,"Miami-Fort Lauderdale-Pompano Beach, FL Metro Area",33100,3500 Pan American Dr,Miami,FL,33133
+-87.909556,43.041047,"Milwaukee-Waukesha-West Allis, WI Metro Area",33340,200 E Wells St,Milwaukee,WI,53202
+-93.26593,44.978156,"Minneapolis-St. Paul-Bloomington, MN-WI Metro Area",33460,250 S 4th St,Minneapolis,MN,55415
+-93.093873,44.943787,"Minneapolis-St. Paul-Bloomington, MN-WI Metro Area",33460,15 Kellogg Blvd W,Saint Paul,MN,55102
+-86.778719,36.167455,"Nashville-Davidson--Murfreesboro--Franklin, TN Metro Area",34980,1 Public Square,Nashville,TN,37201
+-74.006696,40.71374,"New York-Northern New Jersey-Long Island, NY-NJ-PA Metro Area",35620,260 Broadway,New York,NY,10007
+-97.521228,35.46855,"Oklahoma City, OK Metro Area",36420,200 N Walker Ave,Oklahoma City,OK,73102
+-81.379163,28.5491,"Orlando-Kissimmee-Sanford, FL Metro Area",36740,400 S Orange Ave,Orlando,FL,32801
+-75.16361,39.951548,"Philadelphia-Camden-Wilmington, PA-NJ-DE-MD Metro Area",37980,1400 S Penn Square,Philadelphia,PA,19102
+-112.077062,33.448288,"Phoenix-Mesa-Glendale, AZ Metro Area",38060,200 W Washington St,Phoenix,AZ,85003
+-79.997265,40.438562,"Pittsburgh, PA Metro Area",38300,414 Grant St,Pittsburgh,PA,15219
+-122.678538,45.51507,"Portland-Vancouver-Hillsboro, OR-WA Metro Area",38900,1221 SW 4th Ave,Portland,OR,97204
+-71.412746,41.824385,"Providence-New Bedford-Fall River, RI-MA Metro Area",39300,25 Dorrance St,Providence,RI,02903
+-78.642281,35.778388,"Raleigh-Cary, NC Metro Area",39580,222 W Hargett St,Raleigh,NC,27601
+-77.433455,37.540605,"Richmond, VA Metro Area",40060,900 E Broad St,Richmond,VA,23219
+-118.243899,34.05349,"Riverside-San Bernardino-Ontario, CA Metro Area",40140,200 N Spring St,Los Angeles,CA,90012
+-77.614743,43.156786,"Rochester, NY Metro Area",40380,30 Church St,Rochester,NY,14614
+-121.494043,38.581707,"Sacramento--Arden-Arcade--Roseville, CA Metro Area",40900,915 I St,Sacramento,CA,95814
+-111.888196,40.76001,"Salt Lake City, UT Metro Area",41620,451 S State St,Salt Lake City,UT,84111
+-98.494995,29.424943,"San Antonio-New Braunfels, TX Metro Area",41700,100 Military Plaza,San Antonio,TX,78205
+-117.162864,32.716789,"San Diego-Carlsbad-San Marcos, CA Metro Area",41740,202 C St,San Diego,CA,92154
+-122.418291,37.778492,"San Francisco-Oakland-Fremont, CA Metro Area",41860,1 Carlton B Goodlett Pl,San Francisco,CA,94102
+-122.272288,37.805187,"San Francisco-Oakland-Fremont, CA Metro Area",41860,1 Frank H Ogawa Plaza,Oakland,CA,94612
+-121.886309,37.338195,"San Jose-Sunnyvale-Santa Clara, CA Metro Area",41940,200 E Santa Clara St,San Jose,CA,95113
+-122.330476,47.603512,"Seattle-Tacoma-Bellevue, WA Metro Area",42660,600 4th Ave,Seattle,WA,98104
+-90.199108,38.627614,"St. Louis, MO-IL Metro Area",41180,1200 Market St,Saint Louis,MO,63103
+-82.457352,27.947875,"Tampa-St. Petersburg-Clearwater, FL Metro Area",45300,315 E Kennedy Blvd,Tampa,FL,33602
+-82.640122,27.773118,"Tampa-St. Petersburg-Clearwater, FL Metro Area",45300,175 5th St N,St Petersburg,FL,33701
+-76.286925,36.844364,"Virginia Beach-Norfolk-Newport News, VA-NC Metro Area",47260,810 Union St,Norfolk,VA,23510
+-77.030736,38.895466,"Washington-Arlington-Alexandria, DC-VA-MD-WV Metro Area",47900,1350 Pennsylvania Ave NW,Washington,DC,20004
